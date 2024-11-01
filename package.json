@@ -1,0 +1,37 @@
+{
+  "name": "",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "files": [
+    "dist",
+    "readme.md",
+    "LICENSE"
+  ],
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "js",
+    "ts"
+  ],
+  "author": "Bastian Charlet",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2"
+  },
+  "peerDependencies": {
+  }
+}
