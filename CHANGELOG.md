@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.1.2](https://github.com/Bastianowicz/react-screen-auth-guard/releases/tag/v0.1.2) - 2024-11-02
+
+- [`9d98b92`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/9d98b92b0d9ebb96df7d649f8ec5228cda8ad041) fix: forgot uplift config
+
 ## [v0.1.1](https://github.com/Bastianowicz/react-screen-auth-guard/releases/tag/v0.1.1) - 2024-11-02
 
 - [`4217a53`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/4217a5391718c3a1537bbfa68b66d658535668b5) fix: more lax peer dependencies

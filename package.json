@@ -1,6 +1,6 @@
 {
   "name": "react-screen-auth-guard",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Protect certain screens against unauthenticated (or authenticated) visits (e.g. member page, login, register, ...)",
   "main": "dist/index.js",
   "scripts": {
