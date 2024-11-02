@@ -1,71 +1,73 @@
-import React from "react";
-import {render} from "@testing-library/react-native";
-import {AuthConfigProvider, AuthRequirement, withAuthGuard} from ".";
+import React from 'react';
+import {render} from '@testing-library/react';
+import {AuthRequirement} from './authTypes';
+import {withAuthGuard} from './withAuthGuard';
 
+// Mock authentication-related actions
 const getAuthStateMock = jest.fn();
 const unauthenticatedActionMock = jest.fn();
 const authenticatedActionMock = jest.fn();
 
-const TestScreen: React.FC = () => <></>;
+// Mock the useAuthConfig hook
+jest.mock('./AuthConfigContext', () => ({
+    useAuthConfig: () => ({
+        getAuthState: getAuthStateMock,
+        unauthenticatedAction: unauthenticatedActionMock,
+        authenticatedAction: authenticatedActionMock,
+    }),
+}));
 
-const WrappedAuthenticatedScreen = withAuthGuard(TestScreen, {
-    authRequirement: AuthRequirement.Authenticated
-});
+// Mock a simple component for testing
+const MockComponent: React.FC = () => <div>Protected Content</div>;
 
-const WrappedUnauthenticatedScreen = withAuthGuard(TestScreen, {
-    authRequirement: AuthRequirement.Unauthenticated
-});
+// Helper function to create the guarded component
+const createGuardedComponent = (authRequirement: AuthRequirement) =>
+    withAuthGuard(MockComponent, { authRequirement });
 
-const renderWithProviders = (ui: React.ReactElement) => {
-    return render(
-        <AuthConfigProvider
-            getAuthState={getAuthStateMock}
-            unauthenticatedAction={unauthenticatedActionMock}
-            authenticatedAction={authenticatedActionMock}
-        >
-            {ui}
-        </AuthConfigProvider>
-    );
-};
-
-describe("withAuthGuard HOC", () => {
+describe('withAuthGuard HOC', () => {
     beforeEach(() => {
-        getAuthStateMock.mockReset();
-        unauthenticatedActionMock.mockReset();
-        authenticatedActionMock.mockReset();
+        jest.clearAllMocks(); // Clear mocks before each test to ensure clean states
     });
 
-    test("calls unauthenticatedAction when user is not authenticated and requirement is Authenticated", () => {
-        getAuthStateMock.mockReturnValue(false);
+    test('renders component if requirement is AUTHENTICATED and user is authenticated', () => {
+        getAuthStateMock.mockReturnValueOnce(true);
 
-        renderWithProviders(<WrappedAuthenticatedScreen />);
+        const GuardedComponent = createGuardedComponent(AuthRequirement.Authenticated);
+        const { getByText } = render(<GuardedComponent />);
+
+        expect(getByText('Protected Content')).toBeInTheDocument();
+        expect(unauthenticatedActionMock).not.toHaveBeenCalled();
+        expect(authenticatedActionMock).not.toHaveBeenCalled();
+    });
+
+    test('calls unauthenticated action if requirement is AUTHENTICATED and user is not authenticated', () => {
+        getAuthStateMock.mockReturnValueOnce(false);
+
+        const GuardedComponent = createGuardedComponent(AuthRequirement.Authenticated);
+        render(<GuardedComponent />);
 
         expect(unauthenticatedActionMock).toHaveBeenCalledTimes(1);
         expect(authenticatedActionMock).not.toHaveBeenCalled();
     });
 
-    test("calls authenticatedAction when user is authenticated and requirement is Unauthenticated", () => {
-        getAuthStateMock.mockReturnValue(true);
+    test('renders component if requirement is UNAUTHENTICATED and user is not authenticated', () => {
+        getAuthStateMock.mockReturnValueOnce(false);
 
-        renderWithProviders(<WrappedUnauthenticatedScreen />);
+        const GuardedComponent = createGuardedComponent(AuthRequirement.Unauthenticated);
+        const { getByText } = render(<GuardedComponent />);
+
+        expect(getByText('Protected Content')).toBeInTheDocument();
+        expect(unauthenticatedActionMock).not.toHaveBeenCalled();
+        expect(authenticatedActionMock).not.toHaveBeenCalled();
+    });
+
+    test('calls authenticated action if requirement is UNAUTHENTICATED and user is authenticated', () => {
+        getAuthStateMock.mockReturnValueOnce(true);
+
+        const GuardedComponent = createGuardedComponent(AuthRequirement.Unauthenticated);
+        render(<GuardedComponent />);
 
         expect(authenticatedActionMock).toHaveBeenCalledTimes(1);
         expect(unauthenticatedActionMock).not.toHaveBeenCalled();
-    });
-
-    test("renders component when user is authenticated and requirement is Authenticated", () => {
-        getAuthStateMock.mockReturnValue(true);
-
-        const {UNSAFE_getByType} = renderWithProviders(<WrappedAuthenticatedScreen />);
-
-        expect(UNSAFE_getByType(TestScreen)).toBeTruthy();
-    });
-
-    test("renders component when user is not authenticated and requirement is Unauthenticated", () => {
-        getAuthStateMock.mockReturnValue(false);
-
-        const {UNSAFE_getByType} = renderWithProviders(<WrappedUnauthenticatedScreen />);
-
-        expect(UNSAFE_getByType(TestScreen)).toBeTruthy();
     });
 });
