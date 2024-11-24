@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.1.3](https://github.com/Bastianowicz/react-screen-auth-guard/releases/tag/v0.1.3) - 2024-11-24
+
+- [`e798b07`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/e798b0717a4b39f0c3bef09d9105deafdc89fbac) fix(deps): update dependency typescript to v5.7.2 (#4)
+- [`8529284`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/85292849b22665b58bbe0a6368f7d28a5c71668b) chore(deps): update actions/setup-node action to v4.1.0 (#3)
+- [`19f1b25`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/19f1b254464ad1864d1053f1f567dd4a8cb74c5d) chore(deps): update gembaadvantage/uplift-action action to v2.0.2 (#2)
+
 ## [v0.1.2](https://github.com/Bastianowicz/react-screen-auth-guard/releases/tag/v0.1.2) - 2024-11-02
 
 - [`9d98b92`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/9d98b92b0d9ebb96df7d649f8ec5228cda8ad041) fix: forgot uplift config
