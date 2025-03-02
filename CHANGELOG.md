@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v0.1.5](https://github.com/Bastianowicz/react-screen-auth-guard/releases/tag/v0.1.5) - 2025-03-02
+
+- [`740db0f`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/740db0f9d483e1dd8c1ed9269c6557ab9032ec54) fix(deps): update dependency typescript to v5.8.2 (#15)
+- [`4dfb5ce`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/4dfb5ce391cd1d7244aad4ed9125d1a1cba76308) chore(deps): update dependency ts-jest to v29.2.6 (#14)
+- [`4d7da17`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/4d7da17bc361727cb7442918c0358fb8db38ef7c) chore(deps): update actions/setup-node action to v4.2.0 (#13)
+- [`b60e03a`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/b60e03a5ddd9b3b929545846e4d5fd24a7649a7f) chore(deps): update dependency @testing-library/react to v16.2.0 (#12)
+
 ## [v0.1.4](https://github.com/Bastianowicz/react-screen-auth-guard/releases/tag/v0.1.4) - 2025-01-10
 
 - [`f095818`](https://github.com/Bastianowicz/react-screen-auth-guard/commit/f09581838fa4417bbdc88035bb2d83c64731fb4c) fix(deps): update dependency typescript to v5.7.3 (#11)
