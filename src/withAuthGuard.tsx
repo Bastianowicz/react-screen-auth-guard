@@ -1,8 +1,8 @@
-import React from "react";
-import {AuthRequirement} from "./authTypes";
-import {useAuthConfig} from "./AuthConfigContext";
-import {StackScreenProps} from "@react-navigation/stack";
-
+import React, { useEffect, useRef } from "react";
+import { AuthRequirement } from "./authTypes";
+import { useAuthConfig } from "./AuthConfigContext";
+import { StackScreenProps } from "@react-navigation/stack";
+import { useIsFocused } from "@react-navigation/native";
 
 interface WithAuthGuardOptions {
     authRequirement?: AuthRequirement;
@@ -10,35 +10,36 @@ interface WithAuthGuardOptions {
 
 export function withAuthGuard<P extends Partial<StackScreenProps<any>>>(
     WrappedComponent: React.ComponentType<P>,
-    options: WithAuthGuardOptions = {authRequirement: AuthRequirement.Authenticated}
+    options: WithAuthGuardOptions = { authRequirement: AuthRequirement.Authenticated }
 ): React.ComponentType<P> {
-    const {authRequirement} = options;
+    const { authRequirement } = options;
 
     return (props: P) => {
-        const {
-                  getAuthState,
-                  unauthenticatedAction,
-                  authenticatedAction
-              } = useAuthConfig();
-
+        const { getAuthState, unauthenticatedAction, authenticatedAction } = useAuthConfig();
         const isAuthenticated = getAuthState();
+        const isFocused = useIsFocused();
 
-        // Use a ref to prevent multiple redirects
-        const hasRedirectedRef = React.useRef(false);
+        const hasRedirectedRef = useRef(false);
 
-        if (authRequirement === AuthRequirement.Authenticated && !isAuthenticated) {
-            if (!hasRedirectedRef.current) {
+        useEffect(() => {
+            if (!isFocused || hasRedirectedRef.current) return;
+
+            if (authRequirement === AuthRequirement.Authenticated && !isAuthenticated) {
                 hasRedirectedRef.current = true;
                 unauthenticatedAction();
             }
-            return null;
-        }
 
-        if (authRequirement === AuthRequirement.Unauthenticated && isAuthenticated) {
-            if (!hasRedirectedRef.current) {
+            if (authRequirement === AuthRequirement.Unauthenticated && isAuthenticated) {
                 hasRedirectedRef.current = true;
                 authenticatedAction();
             }
+        }, [isAuthenticated, isFocused]);
+
+        if (
+            (authRequirement === AuthRequirement.Authenticated && !isAuthenticated) ||
+            (authRequirement === AuthRequirement.Unauthenticated && isAuthenticated)
+        ) {
+            // Screen is not allowed → don't render anything
             return null;
         }
 
