@@ -1,3 +1,6 @@
+> [!WARNING]
+> **This repository is deprecated and no longer maintained.** No further updates, bug fixes, or security patches will be provided. Please migrate to an alternative solution.
+
 # react-native-auth-guard
 
 A flexible and type-safe authentication guard for React Native apps using React Navigation and TypeScript.

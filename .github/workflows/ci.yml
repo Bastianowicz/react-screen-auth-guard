@@ -1,46 +1,15 @@
+# This workflow has been disabled — the repository is deprecated and archived.
 name: CI
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main, ci/** ]
-    types:
-      - opened
-      - synchronize
-      - reopened
   workflow_dispatch:
+    inputs:
+      reason:
+        description: 'This repo is deprecated. Workflows are disabled.'
+        required: false
 
 jobs:
-  test:
+  disabled:
+    if: false
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4.3.0
-        with:
-          node-version: 18
-      - name: Install dependencies client
-        run: npm i --force
-      - name: Run tests
-        run: npm test
-
-  release:
-    name: Release
-    if: github.ref == 'refs/heads/main' && !startsWith( github.event.commits[0].message, 'build(deps-dev)') && !startsWith( github.event.commits[0].message, 'ci(uplift)')
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN_UPLIFT }}
-      - name: Release
-        if: github.ref == 'refs/heads/main'
-        uses: gembaadvantage/uplift-action@v2.0.2
-        with:
-          args: release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_UPLIFT }}
+      - run: echo "disabled"
